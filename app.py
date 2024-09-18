@@ -1,15 +1,18 @@
-from flask import Flask, render_template, request, send_file, Response, stream_with_context
+from flask import Flask, render_template, request, send_file, Response, stream_with_context, jsonify
 import requests
 import re
 import os
 import subprocess
 import zipfile
 from io import BytesIO
+import ffmpeg
 from datetime import datetime
+
 
 app = Flask(__name__, static_folder="static")
 
 GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycby-rSPKxhf1JbniV8KxTbF-OXok8UY1_CpTWMew7WHYeHwZ-Hq65u3t9U362TmazEBjPg/exec"
+
 
 def send_to_google_sheet(url, timestamp):
     data = {
@@ -38,6 +41,7 @@ def stream_images(post_code):
         data = response.json()
 
         urls = []
+
         if 'data' in data:
             if 'carousel_media' in data['data']:
                 carousel_media = data['data']['carousel_media']
@@ -59,6 +63,7 @@ def stream_images(post_code):
     except requests.RequestException as e:
         print(f"Error downloading images: {e}")
         return []
+
 
 def extract_audio(video_content):
     audio_path = BytesIO()
@@ -142,6 +147,11 @@ def stream_profile_pic(username):
         print(f"Error downloading profile picture: {e}")
         return None
 
+
+
+
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -154,7 +164,6 @@ def index():
             if video_content:
                 timestamp = datetime.now().strftime("%Y-%m-%d %I:%M %p")
                 send_to_google_sheet(url, timestamp) 
-                
                 if selection == 'video':
                     return send_file(
                         video_content,
@@ -177,6 +186,9 @@ def index():
 
     return render_template('index.html')
 
+
+
+
 @app.route('/download_image', methods=['GET', 'POST'])
 def download_image():
     if request.method == 'POST':
@@ -186,6 +198,7 @@ def download_image():
         if shortcode:
             image_urls = stream_images(shortcode)
             if image_urls:
+                # Create a zip file
                 zip_buffer = BytesIO()
                 with zipfile.ZipFile(zip_buffer, 'w') as zip_file:
                     for idx, img_url in enumerate(image_urls):
@@ -194,10 +207,8 @@ def download_image():
                         img_data = BytesIO(img_response.content)
                         zip_file.writestr(f'image_{idx + 1}.jpg', img_data.getvalue())
                 zip_buffer.seek(0)
-
                 timestamp = datetime.now().strftime("%Y-%m-%d %I:%M %p")
                 send_to_google_sheet(url, timestamp)
-                
                 return send_file(
                     zip_buffer,
                     as_attachment=True,
@@ -211,16 +222,18 @@ def download_image():
 
     return render_template('download_image.html')
 
+
+
+
 @app.route('/download_profile_pic', methods=['GET', 'POST'])
 def download_profile_pic():
     if request.method == 'POST':
         username = request.form['username']
-        pic_content = stream_profile_pic(username)
 
+        pic_content = stream_profile_pic(username)
         if pic_content:
             timestamp = datetime.now().strftime("%Y-%m-%d %I:%M %p")
             send_to_google_sheet(username, timestamp) 
-            
             return Response(
                 stream_with_context(pic_content),
                 mimetype="image/jpeg",
@@ -231,9 +244,15 @@ def download_profile_pic():
 
     return render_template('download_profile_pic.html')
 
+
+
+
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
+
+
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
