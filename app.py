@@ -12,7 +12,7 @@ from datetime import datetime
 app = Flask(__name__, static_folder="static")
 
 GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycby-rSPKxhf1JbniV8KxTbF-OXok8UY1_CpTWMew7WHYeHwZ-Hq65u3t9U362TmazEBjPg/exec"
-RAPID_API_KEY = '6f29da9c52mshd53b15f6a83fe91p16ebb5jsn5aeb0075b488'
+RAPID_API_KEY = '94c11f016cmshcab1e74ebfd86f6p18ec0djsn480d5344d954'
 
 def send_to_google_sheet(url, timestamp):
     data = {
