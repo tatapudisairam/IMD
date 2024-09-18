@@ -12,7 +12,7 @@ from datetime import datetime
 app = Flask(__name__, static_folder="static")
 
 GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycby-rSPKxhf1JbniV8KxTbF-OXok8UY1_CpTWMew7WHYeHwZ-Hq65u3t9U362TmazEBjPg/exec"
-
+RAPID_API_KEY = '6f29da9c52mshd53b15f6a83fe91p16ebb5jsn5aeb0075b488'
 
 def send_to_google_sheet(url, timestamp):
     data = {
@@ -31,7 +31,7 @@ def stream_images(post_code):
     api_url = "https://instagram-scraper-api2.p.rapidapi.com/v1/post_info"
     querystring = {"code_or_id_or_url": post_code}
     headers = {
-        "x-rapidapi-key": os.getenv('RAPIDAPI_KEY', '6f29da9c52mshd53b15f6a83fe91p16ebb5jsn5aeb0075b488'),
+        "x-rapidapi-key": RAPID_API_KEY,
         "x-rapidapi-host": "instagram-scraper-api2.p.rapidapi.com"
     }
 
@@ -96,7 +96,7 @@ def stream_reel(post_code):
     api_url = "https://instagram-scraper-api2.p.rapidapi.com/v1/post_info"
     querystring = {"code_or_id_or_url": post_code, "include_insights": "true"}
     headers = {
-        "x-rapidapi-key": os.getenv('RAPIDAPI_KEY', '6f29da9c52mshd53b15f6a83fe91p16ebb5jsn5aeb0075b488'),
+        "x-rapidapi-key": RAPID_API_KEY,
         "x-rapidapi-host": "instagram-scraper-api2.p.rapidapi.com"
     }
 
@@ -127,7 +127,7 @@ def stream_profile_pic(username):
     api_url = "https://instagram-scraper-api2.p.rapidapi.com/v1/info"
     querystring = {"username_or_id_or_url": username}
     headers = {
-        "x-rapidapi-key": os.getenv('RAPIDAPI_KEY', '6f29da9c52mshd53b15f6a83fe91p16ebb5jsn5aeb0075b488'),
+        "x-rapidapi-key": RAPID_API_KEY,
         "x-rapidapi-host": "instagram-scraper-api2.p.rapidapi.com"
     }
 
