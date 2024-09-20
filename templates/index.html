@@ -963,6 +963,10 @@
             transform: translate(-50%, -50%);
             z-index: 9999;
         }
+
+        input::placeholder{
+            color: #b7b7b7;;
+        }
     </style>
     <title>Download Reels or Audio: Seamless Access to Instagram Content</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -1026,11 +1030,11 @@
                 <div class="form-container">
                     <form class="form" action="/" method="POST" id="download-form">
                         <div class="form-group">
-                            <label for="reel_url">Enter Instagram Reel URL:</label>
+                            <label for="reel_url" style="color: #b7b7b7;">Enter Instagram Reel URL:</label>
                             <input type="text" id="reel_url" name="reel_url" required placeholder="Paste the url">
                         </div>
                         <div class="form-group">
-                            <label for="download_type">Download type:</label>
+                            <label for="download_type" style="color: #b7b7b7;">Download type:</label>
                             <select id="download_type" name="download_type" style="font-weight: bold;">
                                 <option value="video">Video</option>
                                 <option value="audio">Audio Only</option>
