@@ -915,6 +915,10 @@
             transform: translate(-50%, -50%);
             z-index: 9999;
         }
+
+        input::placeholder{
+    color: #b7b7b7;
+}
     </style>
     <title>Download Instagram Images: Save High-Quality Photos with Ease</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -982,7 +986,7 @@
                 <div class="form-container">
                     <form class="form" action="/download_image" method="POST" id="image-download-form">
                         <div class="form-group">
-                            <label for="image_url">Enter Instagram Image URL:</label>
+                            <label for="image_url" style="color: #b7b7b7;">Enter Instagram Image URL:</label>
                             <input type="text" id="image_url" name="image_url" required placeholder="Paste the url">
                         </div>
                         <button class="form-submit-btn" type="submit">Download</button>
