@@ -228,7 +228,8 @@ def download_image():
 @app.route('/download_profile_pic', methods=['GET', 'POST'])
 def download_profile_pic():
     if request.method == 'POST':
-        username = request.form['username']
+        username = request.form['username'].strip()  # Strip any leading/trailing whitespace
+        username = username.lstrip('@')  # Remove leading '@' if present
 
         pic_content = stream_profile_pic(username)
         if pic_content:
@@ -243,6 +244,7 @@ def download_profile_pic():
             return "Failed to download the profile picture. Please try again."
 
     return render_template('download_profile_pic.html')
+
 
 
 
