@@ -77,7 +77,7 @@ def home():
         <body>
             <div class="card">
                 <h1>Insta Media Downloader has been updated!</h1>
-                <p>The domain has changed. Please click the button below to visit the new site:</p>
+                <p>The domain has changed. Please click the button below to visit the <b>new site</b>:</p>
                 <a href="https://insta-media-downloader.up.railway.app/">Click here</a>
             </div>
         </body>
